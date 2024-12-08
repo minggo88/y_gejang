@@ -23,7 +23,7 @@ $mysql_database = 'yeosu_clean_gejang';
 
               echo ( "#############################################################################" );
 
-              echo ( "</br> dev branch default DBMS 접속 호스트 정보가 정확하지 않습니다. </br>\n\n" );
+              echo ( "</br>dev branch default DBMS 접속 호스트 정보가 정확하지 않습니다. </br>\n\n" );
 
               exit ( "#############################################################################" );
 
@@ -47,12 +47,12 @@ $mysql_database = 'yeosu_clean_gejang';
 
               exit ( "#############################################################################" );
 
+            mysqli_close( $conn );
 
 
         }
 
 
 
-        mysqli_close( $conn );
 
 ?>
