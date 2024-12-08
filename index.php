@@ -1,4 +1,4 @@
-<?php
+d<?php
 
 $mysql_hostname = 'dev.cxuwu04we8ge.ap-northeast-2.rds.amazonaws.com';
 $mysql_username = 'admin';
@@ -23,7 +23,7 @@ $mysql_database = 'yeosu_clean_gejang';
 
               echo ( "#############################################################################" );
 
-              echo ( "</br> main branch default DBMS 접속 호스트 정보가 정확하지 않습니다. </br>\n\n" );
+              echo ( "</br> dev branch default DBMS 접속 호스트 정보가 정확하지 않습니다. </br>\n\n" );
 
               exit ( "#############################################################################" );
 
@@ -35,7 +35,7 @@ $mysql_database = 'yeosu_clean_gejang';
 
               echo ( "#############################################################################" );
 
-              echo ( "</br> default DBMS 접속에 성공하였습니다. </br>\n\n" );
+              echo ( "</br> dev default DBMS 접속에 성공하였습니다. </br>\n\n" );
 
               echo ( "-----------------------------------------------------------------------------" );
 
