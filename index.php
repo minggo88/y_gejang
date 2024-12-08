@@ -48,11 +48,11 @@ $mysql_database = 'yeosu_clean_gejang';
               exit ( "#############################################################################" );
 
 
+            mysqli_close( $conn );
 
         }
 
 
 
-        mysqli_close( $conn );
 
 ?>
