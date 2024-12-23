@@ -226,7 +226,7 @@ const API = {
         $.ajax({
             url: `${API.BASE_URL}/getCustomerData/`,
             type: 'POST',
-            dataType: 'JSON',
+            dataType: 'JSON',                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
             data: {
                 c_name: s_name,
                 c_call: s_call,
