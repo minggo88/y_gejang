@@ -1,5 +1,5 @@
-d<?php
-
+<?php
+/*
 $mysql_hostname = 'dev.cxuwu04we8ge.ap-northeast-2.rds.amazonaws.com';
 $mysql_username = 'admin';
 $mysql_password = 'a2633218*';
@@ -53,6 +53,11 @@ $mysql_database = 'yeosu_clean_gejang';
 
         }
 
+*/
+
+// naver.com으로 이동
+header("Location: ./ys_login.html");
+exit;
 
 
 
