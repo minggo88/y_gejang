@@ -19,7 +19,7 @@
 
 	<script src="./cg/js/lib/php.default.min.js?t=1667735148"></script>
 	<script src="./cg/js/lib/security.min.js?t=1667735148"></script>
-	<script src="./i18n/i18n.js?t=1667796157"></script>
+	
 
 
 </head>
@@ -91,27 +91,34 @@
                     return false;
                 }
 
+				// 쿠키 설정 함수
+				function setCookie(name, value, days) {
+				    let expires = "";
+				    if (days) {
+				        const date = new Date();
+				        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000); // `days`일 후 만료
+				        expires = "; expires=" + date.toUTCString();
+				    }
+				    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+				}
+
                 // 조건 통과 시 console에 3333 출력
                 API.login(adminId, adminPw, (r) => {
+					console.log(r);
 					if (r && r.success && r.payload) {
-						sessionStorage.setItem('adminId', adminId);
 					    console.log('UserID 저장됨:', adminId);
-						const storedAdminId = sessionStorage.getItem('adminId');
-						if (storedAdminId) {
-							console.log('세션에서 불러온 UserID:', storedAdminId);
-							// 예: 입력 필드에 값 미리 채우기
-							// $('#adminid').val(storedAdminId);
-						}
-                        window.location.href = "http://13.209.183.72/ys_main.html";
+
+						// 쿠키 설정
+						setCookie("adminId", adminId, 1); // 쿠키를 7일 동안 유지
+						console.log("쿠키가 설정되었습니다.");
+
+                        //window.location.href = "http://13.209.183.72/ys_main.html";
 					} else {
 						alert('로그인 정보가 올바른지 확인해주세요.');
 					}
 				})
-            });
-
-            // UserID 입력 필드에 포커스
-            $('#adminid').focus();
-        });
+			});
+		});
     </script>
 </body>
 

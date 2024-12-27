@@ -2,8 +2,8 @@ const API = {
 
     BASE_URL: function() {
         // let API_URL = "//api." + (window.location.host.replace('www.', '')) + "/v1.0";
-        let API_URL = "https://api.assettea.com/v1.0"; // for live
-        if (window.location.host.indexOf('loc.') !== -1 || window.location.host.indexOf('localhost') !== -1) {
+        let API_URL = "http://3.37.78.53/v1.0"; // for live
+        /*if (window.location.host.indexOf('loc.') !== -1 || window.location.host.indexOf('localhost') !== -1) {
             API_URL = "http://api.loc.kkikda.com/v1.0"
         }
         if (window.location.host.indexOf('dev.') !== -1) {
@@ -11,8 +11,8 @@ const API = {
         }
         if (window.location.host.indexOf('127.0.0.1') !== -1) {
             API_URL = "https://api.dev.assettea.com/v1.0"
-        }
-        return API_URL; // 'https://api.dev.assettea.com/v1.0'
+        }*/
+        return API_URL; // 'http://3.37.78.53/v1.0'
     }(),
 
     /**
@@ -23,15 +23,13 @@ const API = {
      */
     login: (email, password, callback = null) => {
         $.ajax({
-            url: `${API.BASE_URL}/socialLogin/`,
+            url: `${API.BASE_URL}/login/`,
             type: 'POST',
             dataType: 'JSON',
             data: {
-                token: window.localStorage.token, lang: window.localStorage.locale,
                 social_id: email,
-                social_name: 'email',
                 userpw: password,
-                os: os,
+                os: 'web',
             },
             success: (resp) => {
                 // 로그인 성공 시 토큰 저장
