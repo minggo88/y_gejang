@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+    <script src="./cg/js/api2.js?t=1671775853"></script>
+    <script src="https://dev.assettea.com/cg/js/bootstrap.bundle.min.js" 
+        integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" 
+        integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" 
+        integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./cg/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./cg/css/bootstrap.css">
+    <title>청정간장게장촌</title>
+    <script src="./cg/js/ysManager.js"></script>
+
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 14px; /* 전체 글자 크기 설정 */
+        }
+    
+        html, body {
+            height: 100%;
+        }
+    
+        .navbar-dark.bg-dark {
+            margin-bottom: 0px;
+        }
+    
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            text-decoration: none;
+            justify-content: center;
+        }
+    
+        .nav-item .nav-link {
+            font-size: 16px;
+            color: #343a40;
+        }
+    
+        #sidebarMenu {
+            height: 100%;
+        }
+    
+        .container-fluid, .row {
+            height: 100%;
+        }
+
+        .nav-item .nav-link.active {
+            color: #dc3545; /* 선택된 항목의 텍스트 색상 (붉은색) */
+            border-radius: 5px; /* 선택된 항목에 둥근 모서리 추가 */
+        }
+        
+        main {
+            height: 100%; /* main이 전체 높이를 채우도록 설정 */
+            overflow-y: auto; /* 스크롤 활성화 */
+        }
+    
+        .team-member {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #dee2e6; /* 1px 테두리 */
+            padding: 3px; /* 3px 패딩 */
+        }
+
+        .button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .password-btn {
+            background-color: #5abfe5;
+            color: white;
+        }
+
+        .disable-btn {
+            background-color: #dc3545;
+            color: white;
+            width: 120px; /* 사용금지 버튼의 가로 길이 */
+        }
+
+        .enable-btn {
+            background-color: #29ab47;
+            color: white;
+            width: 120px; /* 사용금지 버튼의 가로 길이 */
+        }
+
+        .create-id-btn {
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #29ab47;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            float: right; /* 오른쪽으로 이동 */
+        }
+
+        .member-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .member-info span {
+            flex-grow: 1;
+        }
+
+        #title_id{
+            width:262px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- header -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="./ys_main.html">
+                <h2>청정간장게장촌</h2>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor01" style="visibility:hidden;"></div>
+            <form class="d-flex">
+                <button class="btn btn-outline-success">Log out</button>
+            </form>
+        </div>
+    </nav>
+
+    <!-- main -->
+    <div class="container-fluid">
+        <div class="row">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link " href="./ys_main.html"><span data-feather="home"></span> 주문현황</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="./ys_manager.html"><span data-feather="file"></span> 사원관리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="./ys_customer.html"><span data-feather="shopping-cart"></span> 회원관리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./ys_order.html"><span data-feather="users"></span> 히스토리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./ys_end.html"><span data-feather="bar-chart-2"></span> 맺음말</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="./ys_makeitem.html"><span data-feather="layers"></span> 목록 설정</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">사원관리</h1>
+                </div>
+                <div class="table-responsive">
+                    <button class="create-id-btn" data-toggle="collapse" data-target="#collapseMake" aria-expanded="false" aria-controls="collapseMake">아이디 만들기</button>
+                    <br>
+                    <br>
+                    <div class="collapse" id="collapseMake">
+                        <div class="card card-body">
+                            <div class="col-md-8 order-md-1">
+                              <h3 class="mb-3">신규 사원 추가</h3>
+                              <form class="needs-validation" novalidate="">
+                                <div class="row">
+                                  <div class="col-md-6 mb-3">
+                                    <label for="m_name">이름</label>
+                                    <input type="text" class="form-control" id="m_name" placeholder="" value="" required="">
+                                    <div class="invalid-feedback">
+                                      이름은 필수값 입니다.
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="row">
+                                  <div class="col-md-6 mb-3">
+                                    <label for="m_calle">전화번호</label>
+                                    <input type="text" class="form-control" id="m_call" placeholder="" value="" required="">
+                                  </div>
+                                </div>
+
+                                <div class="row">
+                                  <div class="col-md-6 mb-3">
+                                    <label for="m_id">ID</label>
+                                    <input type="text" class="form-control" id="m_id" placeholder="" value="" required="">
+                                    <div class="invalid-feedback">
+                                      ID는 필수값 입니다.
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-6 mb-3">
+                                    <label for="m_pass">비밀번호</label>
+                                    <input type="password" class="form-control" id="m_pass" placeholder="" value="" required="">
+                                    <div class="invalid-feedback">
+                                      패스워드는 필수값 입니다.
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-6 mb-3">
+                                    <label for="m_pass_check">패스워드 확인</label>
+                                    <input type="password" class="form-control" id="m_pass_check" placeholder="" value="" required="">
+                                    <div class="invalid-feedback">
+                                      패스워드 확인은 필수값 입니다.
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                                <br>
+                                <label for="m_calle">사용여부</label>
+                                <div class="d-block my-3">
+                                  <div class="custom-control custom-radio">
+                                    <input id="m_enable" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="">
+                                    <label class="custom-control-label" for="m_enable">사용</label>
+                                  </div>
+                                  <div class="custom-control custom-radio">
+                                    <input id="m_disable" name="paymentMethod" type="radio" class="custom-control-input" required="">
+                                    <label class="custom-control-label" for="m_disable">미사용</label>
+                                  </div>
+                                </div>
+                               <div class="row">
+                                  <div class="col-md-6 mb-3">
+                                <hr class="mb-4">
+                                <button class="btn btn-primary btn-lg btn-block" type="button" id="manager_input">회원가입</button>
+                                  </div>
+                               </div>
+                              </form>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class = team-ys>
+                        <div class="team-member">
+                            <div class="member-info">
+                                <span id = "title_id"><strong></strong><br><span id = "title_call"></span></span>
+                                <span id = "title_name"><strong></strong></span>
+                                <input style="visibility:hidden;" id = "title_index" val =""></input>
+                                <input style="visibility:hidden;" id = "title_password" val =""></input>
+                                <input style="visibility:hidden;" id = "title_use" val =""></input>
+                                <button class="button password-btn" data-toggle="modal" data-target="#passModal" data-whatever="@getbootstrap" >패스워드 변경</button>
+                                <button class="button disable-btn">사용금지</button>
+                            </div>
+                        </div>
+    
+                        <div class="team-member">
+                            <div class="member-info">
+                                <span><strong>Anne Brewer</strong><br>Senior UX Designer</span>
+                                <button class="button password-btn">패스워드 변경</button>
+                                <button class="button disable-btn">사용금지</button>
+                            </div>
+                        </div>
+    
+                        <div class="team-member">
+                            <div class="member-info">
+                                <span><strong>Richard Christmas</strong><br>Front-End Engineer</span>
+                                <button class="button password-btn">패스워드 변경</button>
+                                <button class="button enable-btn">사용</button>
+                            </div>
+                        </div>
+    
+                        <div class="team-member">
+                            <div class="member-info">
+                                <span><strong>Nicholas Binder</strong><br>Content Marketing Manager</span>
+                                <button class="button password-btn">패스워드 변경</button>
+                                <button class="button disable-btn">사용금지</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!--모달창-->
+                    <div class="modal" id="passModal" tabindex="-1" role="dialog" aria-labelledby="passModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="passModalLabel">패스워드 변경</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <form>
+                                <div class="form-id">
+                                    <label for="recipient-name" class="col-form-label">id</label>
+                                    <input type="text" class="form-control" id="recipient-id" disabled>
+                                </div>
+                                <div class="form-name">
+                                    <label for="recipient-name" class="col-form-label">이름</label>
+                                    <input type="text" class="form-control" id="recipient-name">
+                                </div>
+                                <div class="form-call">
+                                    <label for="recipient-name" class="col-form-label">전화번호</label>
+                                    <input type="text" class="form-control" id="recipient-call">
+                                </div>
+                              <div class="form-password">
+                                <label for="recipient-name" class="col-form-label">비밀번호</label>
+                                <input type="password" class="form-control" id="recipient-password">
+                              </div>
+                              <div class="form-password-check">
+                                <label for="message-text" class="col-form-label">비밀번호 확인</label>
+                                <input type="password" class="form-control" id="recipient-password-check">
+                              </div>
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                            <button type="button" class="btn btn-primary" id="btn_up_pw">변경하기</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>
