@@ -107,16 +107,30 @@ function setupPagination(data) {
     }
 }
 
-const check_logout = function (redirectUrl = "/ys_login.html") {
-    // 세션 스토리지 초기화
-    sessionStorage.clear();
-    
+function check_logout() {
+    // 모든 쿠키 초기화
+    document.cookie.split(";").forEach(cookie => {
+        const [name] = cookie.split("=");
+        document.cookie = `${name.trim()}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`;
+    });
+
     // 로그아웃 메시지 출력 (선택 사항)
     alert("로그아웃 되었습니다.");
-    
-    // 로그인 페이지로 리다이렉트
-    window.location.href = redirectUrl;
+
+    // 리다이렉트
+    setTimeout(() => {
+        window.location.href = "http://13.209.183.72/ys_login.html";
+    }, 100); // 메시지 표시 후 약간의 지연을 추가
 };
+
+
+// 특정 쿠키 값만 확인하는 함수
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null; // 쿠키가 없으면 null 반환
+}
 
 ///-------------------------------------------------------------------------------------------
 $(document).ready(function() {
@@ -170,5 +184,22 @@ $(document).ready(function() {
             
             // 추가로 실행할 작업을 이곳에 추가할 수 있습니다.
         });
+        
     })
+    // 현재 브라우저에 저장된 모든 쿠키 확인
+    console.log("저장된 쿠키:", document.cookie);
+
+    // 특정 쿠키 이름으로 값 가져오기
+    const adminId = getCookie("adminId");
+    if (adminId) {
+        console.log("adminId 쿠키 값:", adminId);
+    } else {
+        // 로그아웃 메시지 출력 (선택 사항)
+        alert("로그인이 필요한 서비스 입니다.");
+    
+        // 리다이렉트
+        setTimeout(() => {
+            window.location.href = "http://13.209.183.72/ys_login.html";
+        }, 100); // 메시지 표시 후 약간의 지연을 추가
+    }
 });
