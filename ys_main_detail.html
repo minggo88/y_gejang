@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+    <script src="./cg/js/api2.js?t=1671775853"></script>
+    <script src="./cg/js/bootstrap.bundle.min.js" 
+        integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" 
+        integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" 
+        integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <link rel="stylesheet" href="./cg/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./cg/css/bootstrap.css">
+    <title>청정간장게장촌</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./cg/js/ysMainDetail.js"></script>
+
+    <style type="text/css">
+        body {
+          font-family: Arial, sans-serif;
+        }
+        
+        .board {
+          width: 100%;
+          margin: 0 auto;
+        }
+        
+        .post {
+          border: 1px solid #ccc;
+          margin-bottom: 10px;
+          border-radius: 5px;
+          overflow: hidden;
+        }
+        
+        .title {
+          background-color: #f4f4f4;
+          padding: 10px;
+          cursor: pointer;
+          font-weight: bold;
+        }
+        
+        .meta {
+            font-size: 0.9em;
+            color: #555;
+            margin-top: 5px;
+            text-align: right; /* 텍스트 왼쪽 정렬 */
+            margin-right:20px;
+        }
+        
+        .content {
+          display: none;
+          padding: 10px;
+          background-color: #fff;
+        }
+        body {
+            font-family: Arial, sans-serif;
+        }
+    
+        html, body {
+            height: 100%;
+        }
+    
+        .navbar-dark.bg-dark {
+            margin-bottom: 0px;
+        }
+    
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            text-decoration: none;
+            justify-content: center;
+        }
+    
+        .nav-item .nav-link {
+            font-size: 16px;
+            color: #343a40;
+        }
+    
+        #sidebarMenu {
+            height: 100%;
+        }
+    
+        .container-fluid, .row {
+            height: 100%;
+        }
+
+        /* 네비게이션에서 활성화된 항목 스타일 */
+        .nav-item .nav-link.active {
+            color: #dc3545;; /* 선택된 항목의 텍스트 색상 (붉은색) */
+            border-radius: 5px; /* 선택된 항목에 둥근 모서리 추가 */
+        }
+        
+        main {
+            height: 100%; /* main이 전체 높이를 채우도록 설정 */
+            overflow-y: auto; /* 스크롤 활성화 */
+        }
+    
+        /* 테이블 스타일 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table-responsive table thead {
+            border-top: 1px solid #dee2e6; /* 상단 경계를 원하는 색상으로 설정 */
+            background-color: #f8f9fa;
+        }
+    
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+            font-size: 16px;
+            vertical-align: middle !important; /* 수직 중앙 정렬 */
+        }
+    
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+    
+        /* 완료 여부 색상 */
+        .status-complete {
+            color: white;
+            background-color: #28a745; /* 초록색 */
+            padding: 5px;
+            border-radius: 5px;
+        }
+    
+        .status-incomplete {
+            color: white;
+            background-color: #dc3545; /* 붉은색 */
+            padding: 5px;
+            border-radius: 5px;
+        }
+    
+        /* 내용 글자 길이 제한 */
+        .col-text {
+            max-width: 400px; /* 고정된 너비 설정 */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; /* 길면 '...'로 생략 */
+        }
+    
+        /* 담당자와 이름 크기 동일 설정 */
+        .name-col, .manager-col {
+            width: 150px; /* 동일한 넓이 */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; /* 길면 '...'로 생략 */
+        }
+        .col-index{
+            width: 5%;
+        }
+        .col-name {
+            width: 10%;
+        }
+        .col-time,.col-complete,.col-checker {
+            width: 8%;
+        }
+
+        .table-responsive{
+            width : 900px;
+        }
+        .table-responsive .needs-validation{
+            width : 850px!important;
+            font-size : 16px !important;
+        }
+
+        .table-responsive input, .table-responsive select{
+            height : 35px;
+            font-size: 14px;
+        }
+
+        #btn_complete, #btn_order{
+            width : 850px;
+            height : 45px;
+            font-size: 16px;
+            margin-left:25px;
+            margin-bottom : 20px;
+        }
+
+        .pagination {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-top: 20px;
+          gap: 10px;
+        }
+        
+        .pagination button {
+          background-color: transparent; /* 비선택된 배경 투명 */
+          border: 1px solid #ddd;
+          color: #333;
+          padding: 8px 12px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .pagination button:hover {
+          background-color: #ddd;
+        }
+        
+        .pagination button.active {
+          background-color: #007bff;
+          color: white;
+          border-color: #0056b3;
+        }
+        
+        .pagination button:focus {
+          outline: none;
+        }
+
+        .button-container {
+            margin-top: 10px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .button-container button {
+            padding: 5px 10px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .button-container button:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* 버튼 그룹 스타일 */
+        .btn_group {
+            display: flex;
+            justify-content: flex-end; /* 버튼 오른쪽 정렬 */
+            gap: 10px; /* 버튼 사이 간격 */
+            margin-bottom: 15px; /* 버튼과 폼 사이 간격 */
+        }
+        
+        /* 버튼 기본 스타일 */
+        .create-id-btn {
+            background-color: #007bff; /* 파란색 배경 */
+            color: white; /* 텍스트 흰색 */
+            border: none; /* 테두리 제거 */
+            padding: 10px 20px; /* 여백 */
+            font-size: 16px; /* 글씨 크기 */
+            border-radius: 5px; /* 둥근 모서리 */
+            cursor: pointer; /* 커서 포인터 변경 */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* 호버 효과 */
+        }
+        
+        /* 버튼 호버 스타일 */
+        .create-id-btn:hover {
+            background-color: #0056b3; /* 진한 파란색 */
+            transform: translateY(-2px); /* 살짝 위로 */
+        }
+        
+        /* 버튼 활성화 스타일 */
+        .create-id-btn:active {
+            background-color: #003d82; /* 더 진한 파란색 */
+            transform: translateY(0); /* 클릭 시 원래 위치 */
+        }
+        .col-md-6{
+            padding-left : 0px !important;
+        }
+        .col-md-8{
+            width: 100% !important;
+        }
+        .d-block.my-3 div label{
+            font-size: 14px !important;
+        }
+        .col-md-4.mb-3, .col-md-5.mb-3, .col-md-3.mb-3, .mb-3 label{
+            font-size: 16px;
+        }
+        .custom-control-label{
+            font-size: 14px !important;
+        }
+        
+                
+        .content {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        /* 반응형 스타일 */
+        @media (max-width: 768px) {
+            th, td {
+                font-size: 14px;
+                padding: 6px;
+            }
+    
+            .col-text {
+                max-width: 300px; /* 중간 화면에서는 내용 열 축소 */
+            }
+        }
+    
+        @media (max-width: 480px) {
+            th, td {
+                font-size: 12px;
+                padding: 4px;
+            }
+    
+            table {
+                font-size: 12px;
+            }
+    
+            th {
+                font-size: 13px;
+            }
+    
+            .col-text {
+                max-width: 200px; /* 작은 화면에서는 내용 열 더 축소 */
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- header -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="./ys_main.html">
+                <h2>청정간장게장촌</h2>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor01" style="visibility:hidden;"></div>
+            <form class="d-flex">
+                <button class="btn btn-outline-success" onclick="check_logout()">Log out</button>
+            </form>
+        </div>
+    </nav>
+
+    <!-- main -->
+    <div class="container-fluid">
+        <div class="row">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="./ys_main.html"><span data-feather="home"></span> 주문현황</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./ys_manager.html"><span data-feather="file"></span> 사원관리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="./ys_customer.html"><span data-feather="shopping-cart"></span> 회원관리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./ys_order.html"><span data-feather="users"></span> 히스토리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./ys_end.html"><span data-feather="bar-chart-2"></span> 맺음말</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " href="./ys_makeitem.html"><span data-feather="layers"></span> 목록 설정</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">주문현황</h1>
+                </div>
+                <div class="table-responsive">
+                    
+                    <form class="needs-validation" novalidate="">
+                        <div class="mb-3">
+                          <label for="context">문자 내역</label>
+                                <div class="board">
+                                <!-- JavaScript를 통해 동적으로 게시글 생성 -->
+                                </div>
+                                <div class="pagination"></div>
+                          <input type="text" class="form-control" id="context" placeholder="" required="" style ="height: 109.5px; display:none;">
+                        </div>
+                        <div class="btn_group">
+                            <button class="create-id-btn" data-toggle="collapse" data-target="#collapseMake2" aria-expanded="false" aria-controls="collapseMake2">송하인 정보</button>
+                            <button class="create-id-btn" id="btn_send_info" data-target="#collapseMake" aria-expanded="false" aria-controls="collapseMake">수하인 정보</button>
+                        </div>
+                        <div class="collapse" id="collapseMake">
+                            <div class="card card-body">
+                                <div class="col-md-8 order-md-1">
+                                    <h3 class="mb-3">수하인 정보</h3>
+                                    <form class="needs-validation" novalidate="">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="receive_name">이름</label>
+                                            <input type="text" class="form-control" id="receive_name" placeholder="" value="" required="">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="receive_call">전화번호</label>
+                                            <input type="text" class="form-control" id="receive_call" placeholder="" value="" required="">
+                                        </div>
+
+                                
+                                        <div class="mb-3">
+                                          <label for="receive_address1">주소 1</label>
+                                          <input type="text" class="form-control" id="receive_address1" placeholder="주소를 적어주세요" required="">
+                                        </div>
+                                
+                                        <div class="mb-3">
+                                          <label for="receive_address2">주소 2 <span class="text-muted">(Optional)</span></label>
+                                          <input type="text" class="form-control" id="receive_address2" placeholder="추가 주소를 적어주세요">
+                                        </div>
+    
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                        <hr class="mb-4">
+                                        <button class="btn btn-primary btn-lg btn-block" type="button" id="customer_input">유저 추가</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                  
+                        <div class="collapse" id="collapseMake2">
+                            <div class="card card-body">
+                                <div class="col-md-8 order-md-1">
+                                    <h3 class="mb-3">송하인 정보</h3>
+                                    <form class="needs-validation" novalidate="">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="c_name">이름</label>
+                                            <input type="text" class="form-control" id="c_name" placeholder="" value="" required="">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="c_call">전화번호</label>
+                                            <input type="text" class="form-control" id="c_call" placeholder="" value="" required="">
+                                        </div>
+
+                                
+                                        <div class="mb-3">
+                                          <label for="c_address">주소</label>
+                                          <input type="text" class="form-control" id="c_address" placeholder="주소를 적어주세요" required="">
+                                        </div>
+                                
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <hr class="mb-4">
+                
+                        <h4 class="mb-3">배송 주소를 선택해 주세요.</h4>
+                
+                        <div class="d-block my-3">
+                            <div class="custom-control custom-radio">
+                                <input id="radio_address1" name="addressGroup" type="radio" class="custom-control-input" checked="" required="">
+                                <label class="custom-control-label" for="radio_address1">주소1</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input id="radio_address2" name="addressGroup" type="radio" class="custom-control-input" required="">
+                                <label class="custom-control-label" for="radio_address2">주소2</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                
+                                <button class="create-id-btn" id="btn_address_num">우편번호 찾기</button>
+                            </div>
+                            <div class="col-md-5 mb-3">
+                                <label for="input_type">우편번호</label>
+                                <div id="selectedAddress">우편번호 찾기를 클릭해 주세요.</div>
+                            </div>
+                        </div>
+                        
+                        <hr class="mb-4">
+                        <div class="item_group">
+                            <div class="check_item">
+                                <div class="row">
+                                  <div class="col-md-4 mb-3">
+                                    <label for="item_type">대분류</label>
+                                    <select class="custom-select d-block w-100" id="item_type" required="">
+                                      <option value="">Choose...</option>
+                                      <option>United States</option>
+                                    </select>
+                                  </div>
+                                  <div class="col-md-5 mb-3">
+                                    <label for="item">신청품목</label>
+                                    <select class="custom-select d-block w-100" id="item" required="">
+                                      <option value="">Choose...</option>
+                                      <option>대분류를 선택해 주세요</option>
+                                    </select>
+                                  </div>
+                                  <div class="col-md-3 mb-3">
+                                    <label for="detail_ea">수량</label>
+                                    <input type="text" class="form-control" id="detail_ea" placeholder="0" required="">
+                                    <div class="invalid-feedback">
+                                      수량을 적어주세요
+                                    </div>
+                                  </div>
+                                </div>
+                                <button class="btn btn-primary btn-lg btn-block" id="add_item1" type="button">추가하기</button>
+                                <hr class="mb-4">
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="row">
+                          <div class="col-md-4 mb-3">
+                            <label for="input_type">결제방식</label>
+                            <input type="text" class="form-control" id="input_type" placeholder="" value="" required="">
+                          </div>
+                          <div class="col-md-5 mb-3">
+                            <label for="input_charge">금액</label>
+                            <input type="text" class="form-control" id="input_charge" placeholder="" value="" required="">
+                          </div>
+                          <div class="col-md-3 mb-3">
+                            <label for="input_charge_name">입금자</label>
+                            <input type="text" class="form-control" id="input_charge_name" placeholder="" value="" required="">
+                          </div>
+                        </div>
+                    
+                        <hr class="mb-4">
+                        <div class="item_group">
+                            <div class="send_text_type">
+                                <div class="row">
+                                  <div class="col-md-5 mb-3">
+                                    <label for="text_type">발송 문자 양식</label>
+                                    <select class="custom-select d-block w-100" id="text_type" required="">
+                                      <option value="">Choose...</option>
+                                    </select>
+                                  </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                        <hr class="mb-4">
+                        <div class="mb-3">
+                          <label for="context">발송 문자</label>
+                          <input type="text" class="form-control" id="sendtext" placeholder="" required="" style ="height: 109.5px;">
+                        </div>
+                        <hr class="mb-4">
+                        <br>
+                        <button class="btn btn-primary btn-lg btn-block" id="btn_complete" type="button">문자 보내기</button>
+                        <br>
+                        <button class="btn btn-primary btn-lg btn-block" id="btn_order" type="button">오더 등록</button>
+
+                        
+                      </form>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>
