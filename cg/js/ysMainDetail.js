@@ -4,6 +4,7 @@ const data2 = [];
 const data3 = [];
 let this_index = '';
 let this_post = '';
+let adminId = '';
 
 
 const fn_getData = function (num) {
@@ -501,7 +502,7 @@ $(document).ready(function() {
     this_index = smsIndex;
     
     // 특정 쿠키 이름으로 값 가져오기
-    const adminId = getCookie("adminId");
+    adminId = getCookie("adminId");
     if (adminId) {
         console.log("adminId 쿠키 값:", adminId);
     } else {
