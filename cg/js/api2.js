@@ -590,7 +590,7 @@ const API = {
      * upSMSData
      * @param {*} callback 
      */
-    upSMSStateData: (state, index, callback = null) => {
+    upSMSStateData: (state, index, manager, callback = null) => {
         $.ajax({
             url: `${API.BASE_URL}/upSMSStateData/`,
             type: 'POST',
@@ -598,6 +598,7 @@ const API = {
             data: {
                 c_index: index,
                 c_state: state,
+                c_manager : manager,
                 token: window.localStorage.token, lang: window.localStorage.locale,
             },
             success: (resp) => {

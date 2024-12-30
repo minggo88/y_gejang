@@ -204,7 +204,7 @@ function toggleContent(element) {
 
 function markComplete(index, post) {
     event.preventDefault(); // 기본 동작 중지
-    API.upSMSStateData('Y' ,index , (resp) => {
+    API.upSMSStateData('Y' ,index , adminId, (resp) => {
         // post 요소 내에서 meta 요소를 찾음
         const meta = post.querySelector(".meta");
         if (meta) {
@@ -221,7 +221,7 @@ function markComplete(index, post) {
 
 function markIncomplete(index, post) {
     event.preventDefault(); // 기본 동작 중지
-    API.upSMSStateData('N' ,index , (resp) => {
+    API.upSMSStateData('N' ,index , adminId,  (resp) => {
         // post 요소 내에서 meta 요소를 찾음
         const meta = post.querySelector(".meta");
         if (resp.success) {
@@ -236,7 +236,7 @@ function markIncomplete(index, post) {
 
 function deletePost(index, post) {
     event.preventDefault(); // 기본 동작 중지
-    API.upSMSStateData('D' ,index , (resp) => {
+    API.upSMSStateData('D' ,index , '', (resp) => {
         // post 요소 내에서 meta 요소를 찾음
         const meta = post.querySelector(".meta");
         if (resp.success) {
@@ -500,6 +500,20 @@ $(document).ready(function() {
     const smsIndex = urlParams.get('sms_index');  // 'sms_index' 값 추출
     this_index = smsIndex;
     
+    // 특정 쿠키 이름으로 값 가져오기
+    const adminId = getCookie("adminId");
+    if (adminId) {
+        console.log("adminId 쿠키 값:", adminId);
+    } else {
+        // 로그아웃 메시지 출력 (선택 사항)
+        alert("로그인이 필요한 서비스 입니다.");
+    
+        // 리다이렉트
+        setTimeout(() => {
+            window.location.href = "http://13.209.183.72/ys_login.html";
+        }, 100); // 메시지 표시 후 약간의 지연을 추가
+    }
+
     fn_getData(smsIndex);
     fn_getItem();
     fn_gettext_type();
@@ -547,7 +561,7 @@ $(document).ready(function() {
         // 선택된 value 값 출력
         const sendTextValue = document.getElementById('sendtext').value;
         document.getElementById('sendtext').value = selectElement2.value;
-        console.log('하이');
+
     });
     
     const btnComplete = document.getElementById('btn_complete');
@@ -577,23 +591,6 @@ $(document).ready(function() {
             console.log('전송이 취소되었습니다.');
         }
     });
-
-     // 현재 브라우저에 저장된 모든 쿠키 확인
-     console.log("저장된 쿠키:", document.cookie);
-
-     // 특정 쿠키 이름으로 값 가져오기
-     const adminId = getCookie("adminId");
-     if (adminId) {
-         console.log("adminId 쿠키 값:", adminId);
-     } else {
-         // 로그아웃 메시지 출력 (선택 사항)
-         alert("로그인이 필요한 서비스 입니다.");
-     
-         // 리다이렉트
-         setTimeout(() => {
-             window.location.href = "http://13.209.183.72/ys_login.html";
-         }, 100); // 메시지 표시 후 약간의 지연을 추가
-     }
 });
 
 document.addEventListener("DOMContentLoaded", function () {
