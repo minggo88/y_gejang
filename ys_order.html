@@ -114,6 +114,55 @@
             cursor: not-allowed;
             background-color: white;
         }
+
+        .button-container {
+            display: flex;
+            gap: 10px; /* 버튼 간의 간격을 10px로 설정 */
+        }
+        
+        .save-button {
+            background-color: #007bff; /* 파란색 배경 */
+            color: white; /* 텍스트 색은 흰색 */
+            padding: 10px 20px; /* 적당한 패딩 */
+            border: none; /* 기본 테두리 제거 */
+            border-radius: 5px; /* 둥근 모서리 */
+            margin-left:5px;
+            margin-right:10px;
+            font-size: 14px; /* 글씨 크기 */
+            cursor: pointer; /* 마우스 포인터를 클릭 가능으로 변경 */
+            transition: background-color 0.3s ease; /* 마우스를 올렸을 때 부드러운 배경색 변화 */
+        }
+        
+        #download-btn {
+            background-color: #28a745; /* 파란색 배경 */
+            color: white; /* 텍스트 색은 흰색 */
+            padding: 10px 20px; /* 적당한 패딩 */
+            border: none; /* 기본 테두리 제거 */
+            border-radius: 5px; /* 둥근 모서리 */
+            margin-left:5px;
+            font-size: 14px; /* 글씨 크기 */
+            cursor: pointer; /* 마우스 포인터를 클릭 가능으로 변경 */
+            transition: background-color 0.3s ease; /* 마우스를 올렸을 때 부드러운 배경색 변화 */
+        }
+        
+        .save-button:hover {
+            background-color: #0056b3; /* 마우스를 올렸을 때 짙은 파란색 */
+        }
+        
+        .delete-button {
+            background-color: #dc3545; /* 빨간색 배경 */
+            color: white; /* 텍스트 색은 흰색 */
+            padding: 10px 20px; /* 적당한 패딩 */
+            border: none; /* 기본 테두리 제거 */
+            border-radius: 5px; /* 둥근 모서리 */
+            font-size: 14px; /* 글씨 크기 */
+            cursor: pointer; /* 마우스 포인터를 클릭 가능으로 변경 */
+            transition: background-color 0.3s ease; /* 마우스를 올렸을 때 부드러운 배경색 변화 */
+        }
+        
+        .delete-button:hover {
+            background-color: #c82333; /* 마우스를 올렸을 때 짙은 빨간색 */
+        }
                
     </style>
 
@@ -187,8 +236,16 @@
                                 <th>송하인핸드폰번호</th>
                                 <th>입금자</th>
                                 <th>수하인명</th>
-                                <th>품목</th>
-                                <th>수량</th>
+                                <th>품목1</th>
+                                <th>수량1</th>
+                                <th>품목2</th>
+                                <th>수량2</th>
+                                <th>품목3</th>
+                                <th>수량3</th>
+                                <th>품목4</th>
+                                <th>수량4</th>
+                                <th>품목5</th>
+                                <th>수량5</th>
                                 <th>수하인핸드폰번호</th>
                                 <th>박스수량</th>
                                 <th>우편번호</th>
@@ -222,16 +279,43 @@
                             <label>송하인핸드폰번호: <input type="text" id="send-call" /></label>
                             <label>입금자: <input type="text" id="payment-name" /></label>
                             <label>수하인명: <input type="text" id="receive-name" /></label>
-                            <label>배송물품: <input type="text" id="order-items" /></label>
-                            <label>수량: <input type="text" id="item-cnt" /></label>
+                            <br>
+                            <label style="display: inline-block;">배송물품&nbsp;&nbsp;: 
+                                <div id="order-items" style="display: inline; margin-left: 10px;"></div>
+                            </label>
+                            <label>수량&nbsp&nbsp;: <input type="text" id="item-cnt" /></label>
+                            <label style="display: inline-block;">배송물품2: 
+                                <div id="order-items2" style="display: inline; margin-left: 10px;"></div>
+                            </label>
+                            
+                            <label>수량2: <input type="text" id="item-cnt2" /></label>
+                            
+                            <label style="display: inline-block;">배송물품3: 
+                                <div id="order-items3" style="display: inline; margin-left: 10px;"></div>
+                            </label>
+                            <label>수량3: <input type="text" id="item-cnt3" /></label>
+                            <br>
+                            
+                            <label style="display: inline-block;">배송물품4: 
+                                <div id="order-items4" style="display: inline; margin-left: 10px;"></div>
+                            </label>
+                            <label>수량4: <input type="text" id="item-cnt4" /></label>
+                            
+                            <label style="display: inline-block;">배송물품5: 
+                                <div id="order-items5" style="display: inline; margin-left: 10px;"></div>
+                            </label>
+                            <label>수량5: <input type="text" id="item-cnt5" /></label>
+                            <br>
                             <label>수하인핸드폰번호: <input type="text" id="receive-call" /></label>
                             <label>박스수량: <input type="text" id="box-count" /></label>
                             <label>우편번호: <input type="text" id="receive-address_num" /></label>
                             <label>수하인주소: <input type="text" id="receive-address" /></label>
                             <label>송하주코드: <input type="text" id="receive-code" /></label>
                             <label>운임구분: <input type="text" id="move" /></label>
-                            <label>배송메시지: <input type="text" id="send-message" /></label>
-                            <button type="submit">Save</button>
+                            <label>배송메시지: <input type="text" id="send-message" style="width:800px" /></label>
+                            <br>
+                            <button type="submit" class="save-button">Save</button>
+                            <button type="button" class="delete-button">Delete</button>
                         </form>
                     </div>
                 </div>
@@ -244,6 +328,8 @@
         let currentPageGroup = 1; // 현재 페이지 그룹 (1: 1~10, 2: 11~20, ...)
         let currentPage = 1; // 현재 페이지
         let filteredOrders = []; // 현재 필터링된 데이터
+        let responseData = [];
+        let new_index = 0;
 
         function check_logout() {
             // 모든 쿠키 초기화
@@ -306,6 +392,14 @@
                         <td>${order.receive_name}</td>
                         <td>${order.order_item}</td>
                         <td>${order.item_cnt}</td>
+                        <td>${order.order_item2 || ''}</td>
+                        <td>${order.item_cnt2 || ''}</td>
+                        <td>${order.order_item3 || ''}</td>
+                        <td>${order.item_cnt3 || ''}</td>
+                        <td>${order.order_item4 || ''}</td>
+                        <td>${order.item_cnt4 || ''}</td>
+                        <td>${order.order_item5 || ''}</td>
+                        <td>${order.item_cnt5 || ''}</td>
                         <td>${order.receive_call}</td>
                         <td>${order.box_cnt}</td>
                         <td>${order.receive_address_num}</td>
@@ -377,29 +471,60 @@
         const orders = [
             // 예시 데이터
             {
-                send_date: "2024-12-01",
-                payment_type: "Card",
-                payment: 15000,
-                send_call: "010-1234-5678",
-                payment_name: "John Doe",
-                receive_name: "Jane Smith",
-                order_items: "Item A x2, Item B x3",
-                item_cnt: 5,
-                receive_call: "010-9876-5432",
-                box_count: 2,
-                receive_address: "Seoul, Dobong-gu",
-                receive_code: "12345",
-                move: "Courier",
-                send_message: "Leave at door",
-                stime: "2024-12-01T10:00:00",
-                order_index: 1
+                
             }
         ];
+
+        function selectItem(name) {
+            API.getItemData(-1, (resp) => {
+                //console.log(resp);
+                if (resp.success) {
+                    responseData.length = 0; // 기존 내용을 초기화
+                    responseData.push(...resp.payload); // payload 데이터를 data에 추가
+
+                    // name을 사용하여 해당 요소 가져오기
+                    const selectContainer = document.getElementById(name); // 'order-items' 대신 name 사용
+                    selectContainer.innerHTML = ''; // 기존 내용을 초기화
+                            
+                    // 셀렉트 박스 생성
+                    const selectBox = document.createElement('select');
+                    selectBox.id = 'dynamic-select'; // 셀렉트 박스의 ID 설정
+                            
+                    // 기본 옵션 추가 (선택해주세요)
+                    const defaultOption = document.createElement('option');
+                    defaultOption.textContent = '선택안함'; // 기본 텍스트
+                    defaultOption.value = '0'; // 기본값 설정
+                    defaultOption.selected = true; // 기본값으로 선택됨
+                    selectBox.appendChild(defaultOption);
+        
+                    // responseData 데이터를 옵션으로 추가
+                    responseData.forEach(item2 => {
+                        const option = document.createElement('option');
+                        option.textContent = item2.i_value; // 항목 이름 사용
+                        option.value = item2.item_index; // 아이템 인덱스를 값으로 설정
+                        selectBox.appendChild(option);
+                    });
+        
+                    // 셀렉트 박스를 select-container에 추가
+                    selectContainer.appendChild(selectBox);
+                           
+                    // 선택된 아이템을 "order-items" 셀렉트 박스에 표시
+                    selectBox.addEventListener('change', function() {
+                        const selectedOption = selectBox.options[selectBox.selectedIndex];
+                        const orderItems = document.getElementById('order-items');
+                        orderItems.value = selectedOption.textContent; // 선택된 아이템을 input에 표시
+                    });
+
+                } else {
+                    console.log('fail');
+                }
+            });
+        }
         
         function fn_getData() {
             // check_login();
             API.getOrder(resp => {
-                console.log(resp);
+                //console.log(resp);
                 if (resp.success) {
                     orders.length = 0; // 기존 내용을 초기화
                     orders.push(...resp.payload);
@@ -412,9 +537,50 @@
         
         // 페이지 로드 시 기본 설정
         fn_getData();
+        selectItem('order-items');
+        selectItem('order-items2');
+        selectItem('order-items3');
+        selectItem('order-items4');
+        selectItem('order-items5');
+
+        
+        function selectByIndexOrValue(name, indexOrValue) {
+            // 빈칸이나 null인 경우, 아무 작업도 하지 않음
+            if (indexOrValue === "" || indexOrValue === null || indexOrValue === '0') {
+                return;
+            }
+        
+            const selectBox = document.querySelector(`#${name} select`); // `name`에 해당하는 셀렉트 박스 찾기
+            
+            if (selectBox) {
+                const options = selectBox.options;
+                // indexOrValue가 숫자라면 인덱스로 처리, 그렇지 않으면 value로 처리
+                if (typeof indexOrValue === 'number' || !isNaN(indexOrValue)) {
+                    // index로 처리
+                    const index = parseInt(indexOrValue, 10);
+                    if (index >= 0 && index < options.length) {
+                        selectBox.selectedIndex = index;
+                    }
+                } else {
+                    // value로 처리
+                    // responseData에서 indexOrValue와 일치하는 항목 찾기
+                    const matchedItem = responseData.find(item => item.i_value === indexOrValue);
+                    
+                    if (matchedItem) {
+                        // 일치하는 항목이 있으면 해당 item_index를 value로 선택
+                        for (let i = 0; i < options.length; i++) {
+                            if (options[i].value === matchedItem.item_index.toString()) {
+                                selectBox.selectedIndex = i;  // 해당 option을 선택
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         function editOrder(index) {
-            let new_index = currentPage*10-10+index;
+            new_index = currentPage*10-10+index;
             const order = orders[new_index];
             console.log(order);
             document.getElementById('order-index').value = index;
@@ -424,8 +590,18 @@
             document.getElementById('send-call').value = order.send_call;
             document.getElementById('payment-name').value = order.payment_name;
             document.getElementById('receive-name').value = order.receive_name;
-            document.getElementById('order-items').value = order.order_item;
+            
+            selectByIndexOrValue('order-items', order.order_item);
+            selectByIndexOrValue('order-items2', order.order_item2);
+            selectByIndexOrValue('order-items3', order.order_item3);
+            selectByIndexOrValue('order-items4', order.order_item4);
+            selectByIndexOrValue('order-items5', order.order_item5);
+            
             document.getElementById('item-cnt').value = order.item_cnt;
+            document.getElementById('item-cnt2').value = order.item_cnt2;
+            document.getElementById('item-cnt3').value = order.item_cnt3;
+            document.getElementById('item-cnt4').value = order.item_cnt4;
+            document.getElementById('item-cnt5').value = order.item_cnt5;
             document.getElementById('receive-call').value = order.receive_call;
             document.getElementById('box-count').value = order.box_cnt;
             document.getElementById('receive-address_num').value = order.receive_address_num;
@@ -435,20 +611,29 @@
             document.getElementById('send-message').value = order.send_message;
         }
 
+        const storedIndex = sessionStorage.getItem('currentIndex') || 0;
+        
         document.getElementById('order-form').addEventListener('submit', function (e) {
             e.preventDefault();
-            const index = document.getElementById('order-index').value;
-            //console.log(index);
-            //console.log(orders[index]);
-            orders[index] = {
+            
+            sessionStorage.setItem('currentIndex', new_index);
+            orders[new_index] = {
                 send_date: document.getElementById('send-date').value,
                 payment_type: document.getElementById('payment-type').value,
                 payment: document.getElementById('payment').value,
                 send_call: document.getElementById('send-call').value,
                 payment_name: document.getElementById('payment-name').value,
                 receive_name: document.getElementById('receive-name').value,
-                order_item: document.getElementById('order-items').value,
+                order_item: document.getElementById('order-items').querySelector('select').value,
                 item_cnt: document.getElementById('item-cnt').value,
+                order_item2: document.getElementById('order-items2').querySelector('select').value,
+                item_cnt2: document.getElementById('item-cnt2').value,
+                order_item3: document.getElementById('order-items3').querySelector('select').value,
+                item_cnt3: document.getElementById('item-cnt3').value,
+                order_item4: document.getElementById('order-items4').querySelector('select').value,
+                item_cnt4: document.getElementById('item-cnt4').value,
+                order_item5: document.getElementById('order-items5').querySelector('select').value,
+                item_cnt5: document.getElementById('item-cnt5').value,
                 receive_call: document.getElementById('receive-call').value,
                 box_cnt: document.getElementById('box-count').value,
                 receive_address_num: document.getElementById('receive-address_num').value,
@@ -456,19 +641,21 @@
                 receive_code: document.getElementById('receive-code').value,
                 move: document.getElementById('move').value,
                 send_message: document.getElementById('send-message').value,
-                order_index: orders[index].order_index,
-                stime: orders[index].stime
+                order_index: orders[new_index].order_index,
+                stime: orders[new_index].stime
             };
-            console.log(orders[index]);
-            API.upOrder(orders[index], resp => {
-                console.log(resp);
+            console.log(orders[new_index]);
+            API.upOrder(orders[new_index], resp => {
+                //console.log(resp);
                 if (resp.success) {
                     //console.log(resp.success);
+                    filterData('all');
+                    fn_getData();
                 } else {
                     console.error('Failed to load orders.');
                 }
             });
-            filterData('all');
+            
             //renderTable();
         });
         
@@ -530,6 +717,25 @@
             window.location.href = "http://13.209.183.72/ys_login.html";
         }, 100); // 메시지 표시 후 약간의 지연을 추가
     }
+
+    document.querySelector('.delete-button').addEventListener('click', function() {
+        const isConfirmed = confirm('정말로 삭제하시겠습니까?');
+        if (isConfirmed) {
+            API.deleteOrder(orders[new_index].order_index, resp => {
+                //console.log(resp);
+                if (resp.success) {
+                    //console.log(resp.success);
+                    filterData('all');
+                    fn_getData();
+                } else {
+                    console.error('Failed to load orders.');
+                }
+            });  
+            alert('삭제가 완료되었습니다.');
+        } else {
+            alert('삭제가 취소되었습니다.');
+        }
+    });
     </script>
 </body>
 

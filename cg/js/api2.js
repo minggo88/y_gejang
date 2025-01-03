@@ -649,6 +649,25 @@ const API = {
         })
     },
     /**
+     * deleteOrder
+     * @param {index} callback 
+     */
+    deleteOrder: (select_index, callback = null) => {
+        $.ajax({
+            url: `${API.BASE_URL}/deleteOrder/`,
+            type: 'POST',
+            dataType: 'JSON',
+            data: {
+                order_index: select_index
+            },
+            success: (resp) => {
+                if(callback) {
+                    callback(resp)
+                }
+            }
+        })
+    },
+    /**
      * getOrder
      * @param {*} callback 
      */
