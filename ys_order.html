@@ -327,6 +327,7 @@
         const itemsPerPage = 10; // 페이지당 항목 수
         let currentPageGroup = 1; // 현재 페이지 그룹 (1: 1~10, 2: 11~20, ...)
         let currentPage = 1; // 현재 페이지
+        let totalPage = 10;
         let filteredOrders = []; // 현재 필터링된 데이터
         let responseData = [];
         let new_index = 0;
@@ -421,6 +422,7 @@
             const pagination = document.getElementById('pagination');
             pagination.innerHTML = '';
             const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
+            totalPage = totalPages;
         
             const startPage = (currentPageGroup - 1) * itemsPerPage + 1;
             const endPage = Math.min(currentPageGroup * itemsPerPage, totalPages);
@@ -661,81 +663,156 @@
         
 
         // 엑셀 다운로드 기능 구현
-    function downloadCSV() {
-        const table = document.querySelector('table');
-        let csvContent = '';
+        currentPage = 1; // 페이지 초기화
 
-        // 테이블 헤더 추가
-        const headers = Array.from(table.querySelectorAll('th'));
-        const headerRow = headers.map(header => header.textContent).join(',') + '\n';
-        csvContent += headerRow;
-
-        // 테이블 데이터 추가
-        const rows = Array.from(table.querySelectorAll('tbody tr'));
-        rows.forEach(row => {
-            const cells = Array.from(row.querySelectorAll('td'));
-            const rowData = cells.map(cell => {
-                // 셀 데이터가 특수 문자를 포함할 수 있기 때문에, 이를 감싸줍니다.
-                let cellText = cell.textContent || cell.innerText;
-                return `"${cellText.replace(/"/g, '""')}"`; // "를 두 번 처리하여 CSV 규격에 맞게 변환
-            }).join(',');
-            csvContent += rowData + '\n';
-        });
-
-        // BOM을 추가하여 CSV 파일을 UTF-8 인코딩으로 저장
-        const bom = '\ufeff'; // BOM(UTF-8)을 파일 시작에 추가
-        const blob = new Blob([bom + csvContent], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement('a');
-        if (link.download !== undefined) {
-            // 브라우저 호환성 체크
-            const url = URL.createObjectURL(blob);
-            link.setAttribute('href', url);
-            link.setAttribute('download', 'order_history.csv');
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-    }
-
-    // 다운로드 버튼에 클릭 이벤트 리스너 추가
-    document.getElementById('download-btn').addEventListener('click', downloadCSV);
-
-    // 현재 브라우저에 저장된 모든 쿠키 확인
-    console.log("저장된 쿠키:", document.cookie);
-
-    // 특정 쿠키 이름으로 값 가져오기
-    const adminId = getCookie("adminId");
-    if (adminId) {
-        console.log("adminId 쿠키 값:", adminId);
-    } else {
-        // 로그아웃 메시지 출력 (선택 사항)
-        alert("로그인이 필요한 서비스 입니다.");
-    
-        // 리다이렉트
-        setTimeout(() => {
-            window.location.href = "http://13.209.183.72/ys_login.html";
-        }, 100); // 메시지 표시 후 약간의 지연을 추가
-    }
-
-    document.querySelector('.delete-button').addEventListener('click', function() {
-        const isConfirmed = confirm('정말로 삭제하시겠습니까?');
-        if (isConfirmed) {
-            API.deleteOrder(orders[new_index].order_index, resp => {
-                //console.log(resp);
-                if (resp.success) {
-                    //console.log(resp.success);
-                    filterData('all');
-                    fn_getData();
-                } else {
-                    console.error('Failed to load orders.');
+        let totalPages = totalPage; // 전체 페이지 수가 잘 설정되어 있어야 합니다.
+        let previousData = ''; // 이전 페이지의 데이터를 저장
+        
+        async function downloadAllPagesCSV() {
+            let allCsvContent = ''; // 모든 데이터를 여기에 저장
+            const table = document.querySelector('table');
+            
+            // 테이블이 존재하는지 확인
+            if (!table) {
+                console.error('테이블을 찾을 수 없습니다!');
+                return;
+            }
+        
+            // 테이블 헤더를 가져와서 CSV 내용에 추가
+            const headers = Array.from(table.querySelectorAll('th'));
+            const headerRow = headers.map(header => header.textContent).join(',') + '\n';
+            allCsvContent += headerRow;
+        
+            // 각 페이지 처리
+            while (currentPage <= totalPages) {
+                // 현재 페이지 데이터가 로드될 때까지 대기
+                await waitForPageData();
+        
+                // 현재 페이지의 데이터 수집
+                const rows = Array.from(table.querySelectorAll('tbody tr'));
+                let currentPageData = '';
+                rows.forEach(row => {
+                    const cells = Array.from(row.querySelectorAll('td'));
+                    const rowData = cells.map(cell => {
+                        let cellText = cell.textContent || cell.innerText;
+                        return `"${cellText.replace(/"/g, '""')}"`;  // CSV 규격에 맞게 처리
+                    }).join(',');
+                    currentPageData += rowData + '\n';
+                });
+        
+                // 이전 데이터와 중복 확인
+                if (checkForDuplicates(currentPageData)) {
+                    break; // 반복 중단
                 }
-            });  
-            alert('삭제가 완료되었습니다.');
-        } else {
-            alert('삭제가 취소되었습니다.');
+        
+                // 중복되지 않으면 데이터 추가
+                allCsvContent += currentPageData;
+        
+                // 이전 데이터로 현재 페이지 데이터를 저장
+                previousData = currentPageData;
+        
+                // 마지막 페이지가 아니라면 다음 페이지로 이동
+                if (currentPage < totalPages) {
+                    const pageButtons = document.querySelectorAll('.btn.btn-outline-secondary'); // 페이지 버튼들
+                    const nextPageButton = Array.from(pageButtons).find(button => button.textContent == (currentPage + 1).toString());
+                    if (nextPageButton) {
+                        nextPageButton.click();
+                        await waitForPageLoad();  // 페이지 로딩 대기
+                    }
+                }
+        
+                currentPage++;  // 페이지 번호 증가
+            }
+        
+            // CSV 파일 다운로드를 위한 BOM 추가 및 저장
+            const bom = '\ufeff';
+            const blob = new Blob([bom + allCsvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            if (link.download !== undefined) {
+                const url = URL.createObjectURL(blob);
+                link.setAttribute('href', url);
+                link.setAttribute('download', 'order_history_all_pages.csv');
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
         }
-    });
+        
+        // 현재 페이지의 테이블 데이터가 로드될 때까지 기다리는 함수
+        function waitForPageData() {
+            return new Promise(resolve => {
+                const interval = setInterval(() => {
+                    const rows = document.querySelectorAll('table tbody tr');
+                    if (rows.length > 0) {
+                        clearInterval(interval);
+                        resolve();
+                    }
+                }, 100);
+            });
+        }
+        
+        // 페이지 로딩이 끝날 때까지 대기 (페이지가 동적으로 로딩되는 경우 유용)
+        function waitForPageLoad() {
+            return new Promise(resolve => {
+                const interval = setInterval(() => {
+                    const loadingIndicator = document.querySelector('.loading-indicator');
+                    if (!loadingIndicator || loadingIndicator.style.display === 'none') {
+                        clearInterval(interval);
+                        resolve();
+                    }
+                }, 100);
+            });
+        }
+        
+        // 중복 데이터가 있는지 확인하는 함수
+        function checkForDuplicates(currentPageData) {
+            return previousData === currentPageData; // 이전 페이지와 데이터가 같으면 중복
+        }
+
+
+
+
+    
+    
+        // 다운로드 버튼에 클릭 이벤트 리스너 추가
+        document.getElementById('download-btn').addEventListener('click', downloadAllPagesCSV);
+    
+        // 현재 브라우저에 저장된 모든 쿠키 확인
+        console.log("저장된 쿠키:", document.cookie);
+    
+        // 특정 쿠키 이름으로 값 가져오기
+        const adminId = getCookie("adminId");
+        if (adminId) {
+            console.log("adminId 쿠키 값:", adminId);
+        } else {
+            // 로그아웃 메시지 출력 (선택 사항)
+            alert("로그인이 필요한 서비스 입니다.");
+        
+            // 리다이렉트
+            setTimeout(() => {
+                window.location.href = "http://13.209.183.72/ys_login.html";
+            }, 100); // 메시지 표시 후 약간의 지연을 추가
+        }
+    
+        document.querySelector('.delete-button').addEventListener('click', function() {
+            const isConfirmed = confirm('정말로 삭제하시겠습니까?');
+            if (isConfirmed) {
+                API.deleteOrder(orders[new_index].order_index, resp => {
+                    //console.log(resp);
+                    if (resp.success) {
+                        //console.log(resp.success);
+                        filterData('all');
+                        fn_getData();
+                    } else {
+                        console.error('Failed to load orders.');
+                    }
+                });  
+                alert('삭제가 완료되었습니다.');
+            } else {
+                alert('삭제가 취소되었습니다.');
+            }
+        });
     </script>
 </body>
 
